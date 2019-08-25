@@ -2,6 +2,7 @@ const path = require('path')
 const express = require('express')
 const bodyparser = require('body-parser')
 const swaggerJSDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 
 const app = express()
 const API_PORT = process.env.API_PORT || 3000
@@ -30,9 +31,7 @@ app.get('/swagger.json', (req, res) => {
   res.send(swaggerSpec)
 })
 
-app.get('/docs', (req, res) => {
-  res.sendFile(path.join(__dirname, 'redoc.html'));
-})
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 const animals = [
   'panda', 'racoon', 'python',
